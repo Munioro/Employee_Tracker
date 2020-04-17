@@ -116,6 +116,7 @@ function questionCrud(crudAns) {
                     addToTable(crudAns ,res.addDre);
                 break;
             case "View":
+                viewTable(crudAns, res.addDre)
                 break;
             case "Update":
                 break;
@@ -160,7 +161,32 @@ function addToTable(crudAns, table){
             });
             break;
     }
-}
+};
+
+function viewTable(crudAns, table){
+
+    connection.query(`SELECT * FROM ${table}`, (err, res) => {
+        if(err) throw err;
+        console.log(`${table}: `);
+        for (var i = 0; i < res.length; i++) {
+            switch (table){
+                case 'Department':
+                    console.log(`ID: ${res[i].ID}  || Name: ${res[i].Name}`);
+
+                    break;
+                case 'Role':
+                        console.log(`ID: ${res[i].ID}  || Title: ${res[i].Title} || Salary: ${res[i].Salary} || Department ID: ${res[i].Department_ID}`);
+
+                    break;
+                case 'Employee':
+                    console.log(`ID: ${res[i].ID}  || First Name: ${res[i].First_Name} || Last Name: ${res[i].Last_Name} || Role ID: ${res[i].Role_ID} || Manager ID: ${res[i].Manager_ID}`);
+
+                    break;
+            }
+          }
+        another(crudAns, questionCrud);
+    });
+};
 /*
 scratch area
 copy guts of addToTable for view, update and delete, then modify
